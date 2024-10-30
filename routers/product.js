@@ -17,10 +17,10 @@ router.post('/create', upload.fields([
     }
     
     const { name, category, price, description } = req.body;
-    const imageUrl = req.files['imageUrl'][0].path; // Main image
+    const imageUrl = req.files['imageUrl'][0].path; 
     const additionalImages = req.files['additionalImages'] 
       ? req.files['additionalImages'].map(file => file.path) 
-      : []; // Additional images
+      : []; 
     
     const newProduct = new Product({
       name,

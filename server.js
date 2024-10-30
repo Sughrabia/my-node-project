@@ -22,9 +22,10 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 
 
-app.get('/', (req, res)=>{
-    res.send('hello, express.js server');
+  app.get('/', (req, res) => {
+    res.send('Group 1 - Members: Alice, Bob, Charlie - Project: Multi-Server Architecture');
 });
+
 
 
 const productRoutes= require('./routers/product');
@@ -33,6 +34,7 @@ const userRouter= require ('./routers/user')
 const customizeRouter = require('./routers/customizepage')
 const bannerRouter =require('./routers/banner')
 const cartRouter= require('./routers/cart')
+const shippingRouter= require('./routers/shipping')
 
 
 
@@ -42,7 +44,7 @@ app.use('/user', userRouter )
 app.use('/customPage', customizeRouter  )
 app.use('/banner', bannerRouter)
 app.use('/cart', cartRouter)
-
+app.use('/shipping', shippingRouter )
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
