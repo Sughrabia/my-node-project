@@ -44,7 +44,7 @@ app.use('/user', userRouter )
 app.use('/customPage', customizeRouter  )
 app.use('/banner', bannerRouter)
 app.use('/cart', cartRouter)
-app.use('/shipping', shippingRouter )
+app.use('/', shippingRouter )
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');

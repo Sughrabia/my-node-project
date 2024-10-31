@@ -1,30 +1,35 @@
-// routes/shipping.js
 const express = require('express');
 const router = express.Router();
-const Shipping = require('../models/shipping');
+const Order = require('../models/shipping');
 
-// Route to handle form submission
-router.post('/', async (req, res) => {
+// POST route to create a new order
+router.post('/order', async (req, res) => {
   try {
-    const shippingData = new Shipping(req.body);
-    await shippingData.save();
-    res.status(201).json({ message: 'Shipping data saved successfully!' });
+    const { cartItems, shippingDetails, totalAmount } = req.body;
+
+    const newOrder = new Order({
+      cartItems,
+      shippingDetails,
+      totalAmount,
+    });
+
+    await newOrder.save();
+    res.status(201).json({ message: 'Order created successfully', order: newOrder });
   } catch (error) {
-    res.status(400).json({ message: 'Error saving shipping data', error });
+    console.error('Error creating order:', error);
+    res.status(500).json({ message: 'Error creating order' });
   }
 });
 
-
+// GET route to fetch all orders
 router.get('/orders', async (req, res) => {
-    try {
-      const orders = await Shipping.find();
-      res.status(200).json(orders);
-    } catch (error) {
-      res.status(500).json({ message: 'Failed to fetch orders', error });
-    }
-  });
-
-  
-
+  try {
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: 'Error fetching orders' });
+  }
+});
 
 module.exports = router;
