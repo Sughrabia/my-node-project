@@ -29,7 +29,9 @@ mongoose.connect(uri, {
         if (err.stack) console.error(err.stack);
     });
 
-
+app.get('/', (req, res) => {
+    res.send('Group 1 - Members: Alice, Bob, Charlie - Project: Multi-Server Architecture');
+});
 
 
 const productRoutes= require('./routers/product');
