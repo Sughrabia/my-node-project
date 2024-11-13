@@ -16,12 +16,12 @@ app.use(express.json());
 
 
 const uri = process.env.MONGO_URI;
-console.log('MongoDB URI:', uri); // Check if URI is loaded
+console.log('MongoDB URI:', uri); 
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000 // Adjust as needed
+    serverSelectionTimeoutMS: 5000 
 })
     .then(() => console.log('Connected to MongoDB Atlas'))
     .catch(err => {
@@ -35,22 +35,25 @@ app.get('/', (req, res) => {
 
 
 const productRoutes= require('./routers/product');
-const loginRouter= require ('./routers/login')
 const userRouter= require ('./routers/user')
 const customizeRouter = require('./routers/customizepage')
 const bannerRouter =require('./routers/banner')
 const cartRouter= require('./routers/cart')
 const shippingRouter= require('./routers/shipping')
+const settingRouter= require('./routers/setting')
+const loginRouter= require ('./routers/login')
+
 
 
 
 app.use('/product', productRoutes);
-app.use('/login', loginRouter) 
 app.use('/user', userRouter )
 app.use('/customPage', customizeRouter  )
 app.use('/banner', bannerRouter)
 app.use('/cart', cartRouter)
-app.use('/', shippingRouter )
+app.use('/order', shippingRouter )
+app.use('/setting', settingRouter )
+app.use('/login', loginRouter)
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
