@@ -28,24 +28,24 @@ router.post('/admin/pages', async (req, res) => {
   }
 });
 
-
-// GET: Fetch all pages
+// get all pages
 router.get('/allpages', async (req, res) => {
   try {
+    console.log("Attempting to fetch all pages...");
     const pages = await Page.find();
-    console.log(pages);
 
     if (!pages || pages.length === 0) {
+      console.log("No pages found.");
       return res.status(404).json({ message: 'No pages found' });
     }
 
+    console.log("Pages fetched successfully:", pages);
     res.status(200).json(pages);
   } catch (error) {
     console.error('Error fetching pages:', error); 
     res.status(500).json({ message: 'Failed to fetch pages', error });
   }
 });
-
 
 
 router.get('/count', async (req, res) => {

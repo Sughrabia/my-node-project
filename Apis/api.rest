@@ -1,0 +1,129 @@
+GET http://localhost:5000/
+
+###
+//    Banner apis
+
+POST http://localhost:5000/banner/create
+Content-Type: application/json
+
+{
+  "heading": "Spring Sale",
+  "text": ["Buy Now", "Limited Offer"],
+  "buttonLabel": "Shop Now",
+  "imageUrl": "http://example.com/image.jpg",
+  "category": "Seasonal"
+}
+
+###
+//                          Create a duplicate banner to test
+GET http://localhost:5000/banner/create?heading=Spring%20Sale&text=Buy%20Now,Limited%20Offer&buttonLabel=Shop%20Now&imageUrl
+
+###
+//                          Read all banners
+GET http://localhost:5000/banner
+
+###
+//                          Read a specific banner by id
+GET http://localhost:5000/banner/6735f0e5f94a83552e0b873a
+
+
+###
+//                          Update a banner's heading by category
+PUT http://localhost:5000/banner/edit/6735f0e5f94a83552e0b873a?heading=Summer%20Sale
+
+
+###
+//                          Delete a banner by category
+DELETE  http://localhost:5000/banner/delete/6735f0e5f94a83552e0b873a
+###
+//                          Read all banners to confirm deletion
+GET http://localhost:5000/banner
+
+
+ #####.............................................  Customize pages Apis.....................................###
+
+###
+//        create custompages
+
+Post http://localhost:5000/customPage/admin/pages
+Content-Type: application/json
+
+{
+  "title": "privacy",
+  "content": "This is our privacy page content.",
+  "slug": "privacy"
+}
+
+###
+//        get all pages
+
+GET http://localhost:5000/customPage/allpages
+
+###
+//         get pages by slug
+
+GET http://localhost:5000/customPage/pages/privacy
+
+###
+///        update pages by slug
+
+Put http://localhost:5000/customPage/edit-pages/privacy
+Content-Type: application/json
+
+{
+  "title": "Updated Privacy Policy",
+  "content": "This is the updated privacy page content."
+}
+
+###
+//delete page py slug
+DELETE  http://localhost:5000/customPage/pages/privacy
+
+
+####................................................Users apis ...................................................###
+
+###   get all users
+
+GET http://localhost:5000/user
+
+### get user by id
+GET http://localhost:5000/user/:id
+
+###...............................................Cart apis.................................###
+
+###  Add to cart
+Post http://localhost:5000/cart/add
+Content-Type: application/json
+
+{
+  "userId": "12345",   
+  "productId": "67890", 
+  "quantity": 2        
+}
+
+### get all cart item
+GET http://localhost:5000/cart
+
+### remove from cart
+
+DELETE http://localhost:5000/cart/remove/6736fd27815e403f95c00be6
+
+###......................................login sign-up apis..................................................####
+###
+POST http://localhost:5000/login/api/signup
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "dehodij240@anypng.com",
+    "password": "password123"
+}
+
+###
+POST http://localhost:5000/login/api/login
+Content-Type: application/json
+
+{
+    "email": "dehodij240@anypng.com",
+    "password": "password123"
+}

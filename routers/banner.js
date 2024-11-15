@@ -82,7 +82,7 @@ router.get('/:id', async (req, res) => {
 
 
 // Delete banner route
-router.delete('/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
