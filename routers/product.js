@@ -9,18 +9,17 @@ router.post('/create', upload.fields([
   { name: 'additionalImages', maxCount: 5 }
 ]), async (req, res) => {
   try {
-    console.log('Body:', req.body);
-    console.log('Files:', req.files);
-    
     if (!req.files['imageUrl'] || req.files['imageUrl'].length === 0) {
       return res.status(400).json({ message: 'Main image file is required.' });
     }
-    
+
     const { name, category, price, description } = req.body;
-    const imageUrl = req.files['imageUrl'][0].path; 
+    const mainImage = req.files['imageUrl'][0];
+    const imageUrl = `${req.protocol}://${req.get('host')}/images/${mainImage.filename}`;
+
     const additionalImages = req.files['additionalImages'] 
-      ? req.files['additionalImages'].map(file => file.path) 
-      : []; 
+      ? req.files['additionalImages'].map(file => `${req.protocol}://${req.get('host')}/images/${file.filename}`)
+      : [];
     
     const newProduct = new Product({
       name,
@@ -30,7 +29,7 @@ router.post('/create', upload.fields([
       additionalImages,
       description,
     });
-    
+
     await newProduct.save();
     res.status(201).json({ message: 'Product created successfully', product: newProduct });
   } catch (error) {
@@ -38,6 +37,7 @@ router.post('/create', upload.fields([
     res.status(500).json({ message: 'Error creating product', error: error.message });
   }
 });
+
 
 
 
