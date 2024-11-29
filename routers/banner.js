@@ -56,7 +56,14 @@ router.get('/count', async (req, res) => {
 });
 
 
-
+router.get('/count', async (req, res) => {
+  try {
+    const userCount = await Product.countDocuments();
+    res.json({ total: userCount });
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user count' });
+  }
+});
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
