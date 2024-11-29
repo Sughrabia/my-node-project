@@ -3,7 +3,7 @@ const multer = require('multer');
 const BannerModel = require('../models/banner'); 
 const upload = require('../config/multerConfig'); 
 const router = express.Router();
-
+const mongoose = require('mongoose');
 
 router.post('/create', upload.single('image'), async (req, res) => { 
   const { heading, text, buttonLabel, category } = req.body;
@@ -57,7 +57,6 @@ router.get('/count', async (req, res) => {
 
 
 
-const mongoose = require('mongoose');
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
