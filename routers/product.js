@@ -67,6 +67,7 @@ router.get('/count', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
+  // Ensure id is a valid MongoDB ObjectId
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: 'Invalid product ID format' });
   }
@@ -84,6 +85,7 @@ router.get('/:id', async (req, res) => {
     return res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
 
 
 

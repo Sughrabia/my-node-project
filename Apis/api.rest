@@ -1,5 +1,7 @@
+### /url
 GET http://localhost:5000/
 
+###......................................banner apis..........................................###
 ###
 //    Banner apis
 
@@ -14,9 +16,6 @@ Content-Type: application/json
   "category": "Seasonal"
 }
 
-###
-//                          Create a duplicate banner to test
-GET http://localhost:5000/banner/create?heading=Spring%20Sale&text=Buy%20Now,Limited%20Offer&buttonLabel=Shop%20Now&imageUrl
 
 ###
 //                          Read all banners
@@ -87,7 +86,7 @@ DELETE  http://localhost:5000/customPage/pages/privacy
 GET http://localhost:5000/user
 
 ### get user by id
-GET http://localhost:5000/user/:id
+GET http://localhost:5000/user/673723fe26b4bfa81b536c1b
 
 ###...............................................Cart apis.................................###
 

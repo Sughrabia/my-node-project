@@ -1,88 +1,128 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const User = require('../models/login');
-const nodemailer = require('nodemailer');
-const crypto = require('crypto');  // Added this import for generating verification token
-require('dotenv').config();
+const bcrypt = require("bcryptjs");
+const User = require("../models/login");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+require("dotenv").config();
 
 // Configure nodemailer
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,  // Your email from .env
-    pass: process.env.EMAIL_PASS   // Your app password from .env
-  }
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
-// Function to send verification email
-const sendVerificationEmail = async (email, verificationUrl) => {
+// Function to send OTP email
+const sendOtpEmail = async (email, otp) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Email Verification',
-    html: `<p>Please click the link to verify your email: <a href="${verificationUrl}">Verify Email</a></p>`
+    subject: "Verify Your Email with OTP",
+    html: `<p>Your OTP for email verification is: <strong>${otp}</strong></p>`,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Verification email sent successfully');
+    console.log("OTP email sent successfully");
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
   }
 };
 
 // Signup route
-router.post('/api/signup', async (req, res) => {
+router.post("/api/signup", async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    user = new User({ name, email, password: hashedPassword, verificationToken, isVerified: false });
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+    const otpExpiry = Date.now() + 10 * 60 * 1000; // Expires in 10 minutes
+
+    // Create user
+    user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      otp,
+      otpExpiry,
+      isVerified: false,
+    });
 
     // Save user
     await user.save();
 
-    // Send verification email
-    const verificationUrl = `http://localhost:3000/verify/${verificationToken}`; // Update with your frontend URL
-    await sendVerificationEmail(email, verificationUrl);
+    // Send OTP email
+    await sendOtpEmail(email, otp);
 
-    res.status(200).json({ message: 'User registered successfully. Please check your email to verify your account.' });
+    res.status(200).json({
+      message: "User registered successfully. Please check your email for OTP.",
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-// Verification route
-router.get('/api/verify/:token', async (req, res) => {
-  const { token } = req.params;
+// Verify OTP route
+router.post("/api/verify-otp", async (req, res) => {
+  const { email, otp } = req.body;
 
   try {
-    const user = await User.findOne({ verificationToken: token });
+    const user = await User.findOne({ email });
+
     if (!user) {
-      return res.status(400).json({ message: 'Invalid or expired token' });
+      return res.status(400).json({ message: "User does not exist" });
     }
 
+    if (user.isVerified) {
+      return res.status(400).json({ message: "User already verified" });
+    }
+
+    if (user.otp !== otp || user.otpExpiry < Date.now()) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    // Mark user as verified
     user.isVerified = true;
-    user.verificationToken = undefined; // Clear the token
+    user.otp = undefined;
+    user.otpExpiry = undefined;
     await user.save();
 
-    res.status(200).json({ message: 'Email verified successfully!' });
+    res.status(200).json({ message: "Email verified successfully!" });
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
+
+// Middleware to check if user is verified
+const verifyUserMiddleware = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user || !user.isVerified) {
+      return res.status(403).json({ message: "User is not verified" });
+    }
+
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 // Login route
 router.post('/api/login', async (req, res) => {
@@ -107,6 +147,24 @@ router.post('/api/login', async (req, res) => {
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.post("/send-otp", async (req, res) => {
+  const { email } = req.body;
+
+  // Generate OTP
+  const otp = crypto.randomInt(100000, 999999).toString();
+
+  try {
+    await sendOtpEmail(email, otp);
+    // Store the OTP somewhere (e.g., in memory, Redis, or a DB)
+    // This is for later verification
+    // Example: otpStore[email] = otp; 
+
+    res.status(200).json({ message: "OTP sent to your email." });
+  } catch (error) {
+    res.status(500).json({ message: "Error sending OTP. Please try again later." });
   }
 });
 
