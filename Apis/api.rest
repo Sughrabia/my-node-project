@@ -1,11 +1,11 @@
 ### /url
-GET http://localhost:5000/
+GET https://glamgrabbackend-dxah8u9g.b4a.run/
 
 ###......................................banner apis..........................................###
 ###
 //    Banner apis
 
-POST http://localhost:5000/banner/create
+POST https://glamgrabbackend-dxah8u9g.b4a.run/banner/create
 Content-Type: application/json
 
 {
@@ -19,24 +19,24 @@ Content-Type: application/json
 
 ###
 //                          Read all banners
-GET http://localhost:5000/banner
+GET https://glamgrabbackend-dxah8u9g.b4a.run/banner
 
 ###
 //                          Read a specific banner by id
-GET http://localhost:5000/banner/6735f0e5f94a83552e0b873a
+GET https://glamgrabbackend-dxah8u9g.b4a.run/6735f0e5f94a83552e0b873a
 
 
 ###
 //                          Update a banner's heading by category
-PUT http://localhost:5000/banner/edit/6735f0e5f94a83552e0b873a?heading=Summer%20Sale
+PUT https://glamgrabbackend-dxah8u9g.b4a.run/banner/edit/6735f0e5f94a83552e0b873a?heading=Summer%20Sale
 
 
 ###
 //                          Delete a banner by category
-DELETE  http://localhost:5000/banner/delete/6735f0e5f94a83552e0b873a
+DELETE  https://glamgrabbackend-dxah8u9g.b4a.run/banner/delete/6735f0e5f94a83552e0b873a
 ###
 //                          Read all banners to confirm deletion
-GET http://localhost:5000/banner
+GET https://glamgrabbackend-dxah8u9g.b4a.run/banner
 
 
  #####.............................................  Customize pages Apis.....................................###
@@ -44,7 +44,7 @@ GET http://localhost:5000/banner
 ###
 //        create custompages
 
-Post http://localhost:5000/customPage/admin/pages
+Post https://glamgrabbackend-dxah8u9g.b4a.run/customPage/admin/pages
 Content-Type: application/json
 
 {
@@ -56,17 +56,17 @@ Content-Type: application/json
 ###
 //        get all pages
 
-GET http://localhost:5000/customPage/allpages
+GET https://glamgrabbackend-dxah8u9g.b4a.run/customPage/allpages
 
 ###
 //         get pages by slug
 
-GET http://localhost:5000/customPage/pages/privacy
+GET https://glamgrabbackend-dxah8u9g.b4a.run/pages/privacy
 
 ###
 ///        update pages by slug
 
-Put http://localhost:5000/customPage/edit-pages/privacy
+Put https://glamgrabbackend-dxah8u9g.b4a.run/customPage/edit-pages/privacy
 Content-Type: application/json
 
 {
@@ -76,22 +76,22 @@ Content-Type: application/json
 
 ###
 //delete page py slug
-DELETE  http://localhost:5000/customPage/pages/privacy
+DELETE  https://glamgrabbackend-dxah8u9g.b4a.run/customPage/pages/privacy
 
 
 ####................................................Users apis ...................................................###
 
 ###   get all users
 
-GET http://localhost:5000/user
+GET https://glamgrabbackend-dxah8u9g.b4a.run/user
 
 ### get user by id
-GET http://localhost:5000/user/673723fe26b4bfa81b536c1b
+GET https://glamgrabbackend-dxah8u9g.b4a.run/user/673723fe26b4bfa81b536c1b
 
 ###...............................................Cart apis.................................###
 
 ###  Add to cart
-Post http://localhost:5000/cart/add
+Post https://glamgrabbackend-dxah8u9g.b4a.run/cart/add
 Content-Type: application/json
 
 {
@@ -101,25 +101,25 @@ Content-Type: application/json
 }
 
 ### get all cart item
-GET http://localhost:5000/cart
+GET https://glamgrabbackend-dxah8u9g.b4a.run/cart
 
 ### remove from cart
 
-DELETE http://localhost:5000/cart/remove/6736fd27815e403f95c00be6
+DELETE https://glamgrabbackend-dxah8u9g.b4a.run/cart/remove/6736fd27815e403f95c00be6
 
 ###......................................login sign-up apis..................................................####
 ###
-POST http://localhost:5000/login/api/signup
+POST https://glamgrabbackend-dxah8u9g.b4a.run/login/api/signup
 Content-Type: application/json
 
 {
     "name": "John Doe",
-    "email": "nocitob154@cashbn.com",
+    "email": "nocitob15cdashg4@cashbn.com",
     "password": "password123"
 }
 
 ###
-POST http://localhost:5000/login/api/login
+POST https://glamgrabbackend-dxah8u9g.b4a.run/login/api/login
 Content-Type: application/json
 
 {
