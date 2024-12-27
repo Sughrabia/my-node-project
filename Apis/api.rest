@@ -131,11 +131,29 @@ DELETE https://ordermanagementserver1-a6huju4d.b4a.run/cart/remove/6736fd27815e4
 
 ### create product
 
-PUT https://ordermanagementserver1-a6huju4d.b4a.run/product
+POST  https://ordermanagementserver1-a6huju4d.b4a.run/product/create
+Content-Type: application/json
 
+{
+    "name": "jackets",
+    "category": "Popular",
+    "price": 234,
+    "imageUrl": "http://glamgrabbackend-dxah8u9g.b4a.run/images/1732858325282-38263368.jpg",
+    "additionalImages": [],
+    "description": "A product description is a form of marketing copy used to describe and explain the benefits of your product. In other words, it provides all the information and details of your product on your ecommerce site. These product details can be one sentence, a short paragraph or bulleted. They can be serious, funny or quirky."
+}
 
 ### Edit product
-POST https://ordermanagementserver1-a6huju4d.b4a.run/product/edit/:id
+PUT  https://ordermanagementserver1-a6huju4d.b4a.run/product/edit/67495206bfc810eb5d3818e
+Content-Type: application/json
+{
+    "name": "updated jackets",
+    "category": "Trending",
+    "price": 299,
+    "imageUrl": "http://glamgrabbackend-dxah8u9g.b4a.run/images/updated-image.jpg",
+    "additionalImages": [],
+    "description": "This is an updated product description for jackets."
+}
 
 ### delete product by Id
 DELETE https://ordermanagementserver1-a6huju4d.b4a.run/product/6749516bbfc810eb5d3818e2
@@ -144,9 +162,9 @@ DELETE https://ordermanagementserver1-a6huju4d.b4a.run/product/6749516bbfc810eb5
 GET  https://ordermanagementserver1-a6huju4d.b4a.run/product
 
 ### get product by ID
-GET https://ordermanagementserver1-a6huju4d.b4a.run/product/674951d5bfc810eb5d3818e5
+GET https://glamgrabbackend-dxah8u9g.b4a.run/product/67495206bfc810eb5d3818e
 
 
 ### count products
-GET  https://ordermanagementserver1-a6huju4d.b4a.run/product/count
+GET https://glamgrabbackend-dxah8u9g.b4a.run/product/count
 
