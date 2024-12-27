@@ -1,11 +1,40 @@
-### /url
-GET https://glamgrabbackend-dxah8u9g.b4a.run/
+###......................................Login server apis.............................................###
 
-###......................................banner apis..........................................###
+GET https://loginserver-2s23nyu0.b4a.run/
+
 ###
-//    Banner apis
+//     registration
+POST https://loginserver-2s23nyu0.b4a.run/login/api/signup
+Content-Type: application/json
 
-POST https://glamgrabbackend-dxah8u9g.b4a.run/banner/create
+{
+    "name": "John Doe",
+    "email": "kehodij240@anypng.com",
+    "password": "password123"
+}
+
+###
+//   login 
+POST https://loginserver-2s23nyu0.b4a.run/login/api/login
+Content-Type: application/json
+
+{
+    "email": "dehodij240@anypng.com",
+    "password": "password123"
+}
+
+###   get all users
+
+GET https://customizeproserver-ez6b5n9b.b4a.run/user
+
+
+###...........................................customize server.............................###
+
+###
+Get https://customizeproserver-ez6b5n9b.b4a.run/
+###
+//   create Banner apis
+POST https://customizeproserver-ez6b5n9b.b4a.run/banner/create
 Content-Type: application/json
 
 {
@@ -18,33 +47,31 @@ Content-Type: application/json
 
 
 ###
-//                          Read all banners
-GET https://glamgrabbackend-dxah8u9g.b4a.run/banner
+//     Read all banners
+GET https://customizeproserver-ez6b5n9b.b4a.run/banner
 
 ###
-//                          Read a specific banner by id
-GET https://glamgrabbackend-dxah8u9g.b4a.run/6735f0e5f94a83552e0b873a
-
-
-###
-//                          Update a banner's heading by category
-PUT https://glamgrabbackend-dxah8u9g.b4a.run/banner/edit/6735f0e5f94a83552e0b873a?heading=Summer%20Sale
+//     Read a specific banner by id
+GET https://customizeproserver-ez6b5n9b.b4a.run/banner/670f4ffa6d5bb00edf68ecea
 
 
 ###
-//                          Delete a banner by category
-DELETE  https://glamgrabbackend-dxah8u9g.b4a.run/banner/delete/6735f0e5f94a83552e0b873a
+//     Update a banner's heading by category
+PUT https://customizeproserver-ez6b5n9b.b4a.run/banner/edit/675a7d558b8d0016741c1ca1?heading=Summer%20Sale
+
+
 ###
-//                          Read all banners to confirm deletion
-GET https://glamgrabbackend-dxah8u9g.b4a.run/banner
+//     Delete a banner by category
+DELETE  https://customizeproserver-ez6b5n9b.b4a.run/banner/675a7d558b8d0016741c1ca1
 
-
- #####.............................................  Customize pages Apis.....................................###
+###
+//      Read all banners to confirm deletion
+GET https://customizeproserver-ez6b5n9b.b4a.run/banner
 
 ###
 //        create custompages
 
-Post https://glamgrabbackend-dxah8u9g.b4a.run/customPage/admin/pages
+Post https://customizeproserver-ez6b5n9b.b4a.run/customPage/admin/pages
 Content-Type: application/json
 
 {
@@ -54,14 +81,14 @@ Content-Type: application/json
 }
 
 ###
-//        get all pages
+//        get all custom pages
 
 GET https://glamgrabbackend-dxah8u9g.b4a.run/customPage/allpages
 
 ###
-//         get pages by slug
+//         get custom pages by slug
 
-GET https://glamgrabbackend-dxah8u9g.b4a.run/pages/privacy
+GET https://glamgrabbackend-dxah8u9g.b4a.run/customPage/pages/privacy
 
 ###
 ///        update pages by slug
@@ -75,23 +102,18 @@ Content-Type: application/json
 }
 
 ###
-//delete page py slug
+//         delete page py slug
 DELETE  https://glamgrabbackend-dxah8u9g.b4a.run/customPage/pages/privacy
 
 
-####................................................Users apis ...................................................###
+###...............................................order-management server...........................................###
 
-###   get all users
 
-GET https://glamgrabbackend-dxah8u9g.b4a.run/user
+###
+Get https://ordermanagementserver1-a6huju4d.b4a.run/
 
-### get user by id
-GET https://glamgrabbackend-dxah8u9g.b4a.run/user/673723fe26b4bfa81b536c1b
-
-###...............................................Cart apis.................................###
-
-###  Add to cart
-Post https://glamgrabbackend-dxah8u9g.b4a.run/cart/add
+###  Add item to cart
+Post https://ordermanagementserver1-a6huju4d.b4a.run/cart/add
 Content-Type: application/json
 
 {
@@ -101,28 +123,30 @@ Content-Type: application/json
 }
 
 ### get all cart item
-GET https://glamgrabbackend-dxah8u9g.b4a.run/cart
+GET https://ordermanagementserver1-a6huju4d.b4a.run/cart
 
-### remove from cart
+### remove item from cart
 
-DELETE https://glamgrabbackend-dxah8u9g.b4a.run/cart/remove/6736fd27815e403f95c00be6
+DELETE https://ordermanagementserver1-a6huju4d.b4a.run/cart/remove/6736fd27815e403f95c00be6
 
-###......................................login sign-up apis..................................................####
-###
-POST https://glamgrabbackend-dxah8u9g.b4a.run/login/api/signup
-Content-Type: application/json
+### create product
 
-{
-    "name": "John Doe",
-    "email": "nocitob15cdashg4@cashbn.com",
-    "password": "password123"
-}
+PUT https://ordermanagementserver1-a6huju4d.b4a.run/product
 
-###
-POST https://glamgrabbackend-dxah8u9g.b4a.run/login/api/login
-Content-Type: application/json
 
-{
-    "email": "dehodij240@anypng.com",
-    "password": "password123"
-}
+### Edit product
+POST https://ordermanagementserver1-a6huju4d.b4a.run/product/edit/:id
+
+### delete product by Id
+DELETE https://ordermanagementserver1-a6huju4d.b4a.run/product/6749516bbfc810eb5d3818e2
+
+### get all products
+GET  https://ordermanagementserver1-a6huju4d.b4a.run/product
+
+### get product by ID
+GET https://ordermanagementserver1-a6huju4d.b4a.run/product/674951d5bfc810eb5d3818e5
+
+
+### count products
+GET  https://ordermanagementserver1-a6huju4d.b4a.run/product/count
+
