@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 require("dotenv").config();
 
-// Configure nodemailer
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -33,24 +33,20 @@ const sendOtpEmail = async (email, otp) => {
 };
 
 // Signup route
-router.post("/api/signup", async (req, res) => {
+router.post('/api/signup', async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const otp = Math.floor(100000 + Math.random() * 900000); 
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); 
 
-    // Generate OTP
-    const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
-    const otpExpiry = Date.now() + 10 * 60 * 1000; // Expires in 10 minutes
-
-    // Create user
     user = new User({
       name,
       email,
@@ -60,18 +56,23 @@ router.post("/api/signup", async (req, res) => {
       isVerified: false,
     });
 
-    // Save user
     await user.save();
-
-    // Send OTP email
-    await sendOtpEmail(email, otp);
+    try {
+      await sendOtpEmail(email, otp);
+    } catch (emailError) {
+      console.error('Error sending OTP email:', emailError);
+      await User.deleteOne({ email });
+      return res.status(500).json({
+        message: 'Failed to send OTP email. Please try registering again.',
+      });
+    }
 
     res.status(200).json({
-      message: "User registered successfully. Please check your email for OTP.",
+      message: 'User registered successfully. Please check your email for OTP.',
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.error('Error during user registration:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -93,8 +94,6 @@ router.post("/api/verify-otp", async (req, res) => {
     if (user.otp !== otp || user.otpExpiry < Date.now()) {
       return res.status(400).json({ message: "Invalid or expired OTP" });
     }
-
-    // Mark user as verified
     user.isVerified = true;
     user.otp = undefined;
     user.otpExpiry = undefined;
@@ -133,8 +132,6 @@ router.post('/api/login', async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'User does not exist' });
     }
-
-    // Check if email is verified
     if (!user.isVerified) {
       return res.status(400).json({ message: 'Please verify your email before logging in' });
     }
@@ -153,7 +150,6 @@ router.post('/api/login', async (req, res) => {
 router.post("/send-otp", async (req, res) => {
   const { email } = req.body;
 
-  // Generate OTP
   const otp = crypto.randomInt(100000, 999999).toString();
 
   try {
