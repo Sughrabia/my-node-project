@@ -39,46 +39,32 @@ const sendOtpEmail = async (email) => {
 
 
 // Signup route
-router.post('/api/signup', async (req, res) => {
-  const { name, email, password } = req.body;
-
+router.post("/register", async (req, res) => {
   try {
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ message: 'User already exists' });
-    }
+      const { name, email, password } = req.body;
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const otp = Math.floor(100000 + Math.random() * 900000); 
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); 
+      // Validate input
+      if (!name || !email || !password) {
+          return res.status(400).json({ message: "All fields are required" });
+      }
 
-    user = new User({
-      name,
-      email,
-      password: hashedPassword,
-      otp,
-      otpExpiry,
-      isVerified: false,
-    });
+      // Check if user already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+          return res.status(400).json({ message: "User already exists" });
+      }
 
-    await user.save();
-    try {
-      await sendOtpEmail(email, otp);
-    } catch (emailError) {
-      console.error('Error sending OTP email:', emailError);
-      await User.deleteOne({ email });
-      return res.status(500).json({
-        message: 'Failed to send OTP email. Please try registering again.',
-      });
-    }
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    res.status(200).json({
-      message: 'User registered successfully. Please check your email for OTP.',
-    });
+      // Create new user
+      const newUser = new User({ name, email, password: hashedPassword });
+      await newUser.save();
+
+      res.json({ message: "User registered successfully" });
   } catch (error) {
-    console.error('Error during user registration:', error);
-    res.status(500).json({ message: 'Server error' });
+      console.error("Error registering user:", error);
+      res.status(500).json({ message: "Server error" });
   }
 });
 
