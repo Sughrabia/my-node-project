@@ -126,11 +126,10 @@ Content-Type: application/json
 GET https://ordermanagementserver1-a6huju4d.b4a.run/cart
 
 ### remove item from cart
-
 DELETE https://ordermanagementserver1-a6huju4d.b4a.run/cart/remove/6736fd27815e403f95c00be6
 
-### create product
 
+### create product
 POST  https://ordermanagementserver1-a6huju4d.b4a.run/product/create
 Content-Type: application/json
 

@@ -18,30 +18,24 @@ const transporter = nodemailer.createTransport({
 
 // Function to generate and send OTP
 const sendOtpEmail = async (email) => {
-  // Generate 4-digit OTP
-  const otp = Math.floor(1000 + Math.random() * 9000);
-  
-  // Hash OTP for security before saving it to the database
-  const saltRounds = 10;
-  const hashedOtp = await bcrypt.hash(otp.toString(), saltRounds);
-
-  // Mail options
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Verify Your Email with OTP",
-    html: `<p>Your OTP for email verification is: <strong>${otp}</strong></p><p>This code expires in 1 hour.</p>`,
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
-    console.log("OTP email sent successfully");
-    return hashedOtp; // Save this hashed OTP in the database
+    const otp = Math.floor(1000 + Math.random() * 9000);
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verify Your Email with OTP",
+      html: `<p>Your OTP for email verification is: <strong>${otp}</strong></p><p>This code expires in 1 hour.</p>`,
+    };
+
+    let info = await transporter.sendMail(mailOptions);
+    console.log("✅ OTP email sent:", info.response);
+    return otp;
   } catch (error) {
-    console.error("Error sending email:", error);
-    throw error; // Re-throw the error for further handling
+    console.error("❌ Error sending email:", error);
+    throw error; // Ensure this error is logged in your main route
   }
 };
+
 
 
 // Signup route
