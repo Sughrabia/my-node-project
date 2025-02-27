@@ -5,9 +5,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://glamgrabstore.netlify.app, https://glamadmin.netlify.app/user'],
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization" 
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://glamgrabstore.netlify.app, https://glamadmin.netlify.app/user']
 }));
 
 
