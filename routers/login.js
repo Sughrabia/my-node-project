@@ -36,6 +36,29 @@ const sendOtpEmail = async (email) => {
   }
 };
 
+// Login route
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'User does not exist' });
+    }
+    // if (!user.isVerified) {
+    //   return res.status(400).json({ message: 'Please verify your email before logging in' });
+    // }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Incorrect password' });
+    }
+
+    res.status(200).json({ message: 'Login successful' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 // Signup route
@@ -69,7 +92,7 @@ router.post("/register", async (req, res) => {
 });
 
 // Verify OTP route
-router.post("/api/verify-otp", async (req, res) => {
+router.post("/verify-otp", async (req, res) => {
   const { email, otp } = req.body;
 
   try {
@@ -115,29 +138,6 @@ const verifyUserMiddleware = async (req, res, next) => {
   }
 };
 
-// Login route
-router.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'User does not exist' });
-    }
-    if (!user.isVerified) {
-      return res.status(400).json({ message: 'Please verify your email before logging in' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Incorrect password' });
-    }
-
-    res.status(200).json({ message: 'Login successful' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
 
 router.post("/send-otp", async (req, res) => {
   const { email } = req.body;
