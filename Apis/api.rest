@@ -4,22 +4,22 @@ GET https://loginserver-2s23nyu0.b4a.run/
 
 ###
 //     registration
-POST https://loginserver-2s23nyu0.b4a.run/login/api/signup
+POST https://loginserver-2s23nyu0.b4a.run/api/register
 Content-Type: application/json
 
 {
     "name": "John Doe",
-    "email": "kehodij240@anypng.com",
+    "email": "khodj240@anypng.com",
     "password": "password123"
 }
 
 ###
 //   login 
-POST https://loginserver-2s23nyu0.b4a.run/login/api/login
+POST https://loginserver-2s23nyu0.b4a.run/api/login
 Content-Type: application/json
 
 {
-    "email": "dehodij240@anypng.com",
+    "email": "khodj240@anypng.com",
     "password": "password123"
 }
 
